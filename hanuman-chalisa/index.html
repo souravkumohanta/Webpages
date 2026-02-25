@@ -12,6 +12,9 @@
       --text: #f4f4f6;
       --muted: #b8b8c2;
       --accent: #ffb703;
+      --font-base: 1.05rem;
+      --font-large: 1.35rem;
+      --font-xl: 1.65rem;
     }
     body {
       margin: 0;
@@ -41,26 +44,40 @@
     .subtitle {
       text-align: center;
       color: var(--muted);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .controls button {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .controls button:hover {
+      border-color: var(--accent);
     }
     .divider {
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
-      margin: 18px 0 20px;
+      margin: 12px 0 16px;
     }
     pre {
       white-space: pre-wrap;
       word-break: break-word;
       font-family: "Noto Serif Devanagari", "Mangal", "Kalimati", serif;
-      font-size: 1.05rem;
+      font-size: var(--font-base);
       line-height: 1.9;
       margin: 0;
-    }
-    footer {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      text-align: center;
+      transition: font-size 0.2s ease;
     }
     .badge {
       display: inline-block;
@@ -71,7 +88,13 @@
       color: var(--accent);
       font-weight: 600;
       font-size: 0.75rem;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+    }
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
     }
   </style>
 </head>
@@ -81,9 +104,19 @@
       <div class="badge">Public Domain</div>
       <h1>हनुमान चालीसा</h1>
       <p class="subtitle">गोस्वामी तुलसीदास कृत (16वीं शताब्दी)</p>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button onclick="setFontSize('base')">Normal Text</button>
+        <button onclick="setFontSize('large')">Large Text</button>
+        <button onclick="setFontSize('xl')">Extra Large Text</button>
+        <button onclick="startAutoScroll()">▶ Start Auto Scroll</button>
+        <button onclick="stopAutoScroll()">⏸ Stop Auto Scroll</button>
+      </div>
+
       <div class="divider"></div>
 
-      <pre>
+      <pre id="chalisaText">
 श्रीगुरु चरन सरोज रज, निज मनु मुकुरु सुधारि।
 बरनउँ रघुबर बिमल जसु, जो दायक फल चारि॥
 
@@ -132,5 +165,4 @@
 सुगम अनुग्रह तुम्हरे तेते॥
 राम दुआरे तुम रखवारे।
 होत न आज्ञा बिनु पैसारे॥
-सब सुख लहै तुम्हारी सरना।
-तुम रक्षक काह
+सब सुख लहै तुम्ह
