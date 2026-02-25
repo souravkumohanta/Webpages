@@ -160,6 +160,14 @@
     .floating-controls button:hover {
       border-color: var(--accent);
     }
+    /* Light theme overrides */
+body.theme-light {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --accent: #2563eb; /* blue accent for light theme */
+}
 
     body {
       padding-bottom: 80px;
@@ -322,6 +330,7 @@
     <button type="button" onclick="toggleTextColor()">🅰️ Text</button>
     <button type="button" onclick="startAutoScroll()">▶ Auto Scroll</button>
     <button type="button" onclick="stopAutoScroll()">⏸ Stop</button>
+    <input type="range" oninput="setThemeHue(this.value)" />
   </div>
   <!-- ✅ JavaScript: functions are here -->
   <script>
@@ -351,11 +360,13 @@
       }
     }
 
-    // Theme toggle (Dark <-> Light)
     function toggleTheme() {
-      document.body.classList.toggle('theme-light');
-      localStorage.setItem('theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
-    }
+    document.body.classList.toggle('theme-light');
+    localStorage.setItem(
+      'theme',
+      document.body.classList.contains('theme-light') ? 'light' : 'dark'
+    );
+  }
 
     function toggleTextColor() {
       const root = document.documentElement;
