@@ -34,6 +34,9 @@
   <!-- Performance hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 
+  <!-- YouTube iframe API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <style>
     :root {
       --bg: #0f0f14;
@@ -204,7 +207,7 @@ body.theme-light {
         <button type="button" onclick="setFontSize('base')">Normal Text</button>
         <button type="button" onclick="setFontSize('large')">Large Text</button>
         <button type="button" onclick="setFontSize('xl')">Extra Large Text</button>
-
+        <button type="button" id="musicButton" onclick="toggleMusic()">🎵 Play Music</button>
       </div>
 
       <div class="divider"></div>
@@ -356,6 +359,10 @@ body.theme-light {
       🃏 Card: <input type="color" id="cardColorPicker" onchange="setCardColor(this.value)" style="cursor: pointer; border: none; width: 32px; height: 24px;">
     </label>
   </div>
+
+  <!-- Hidden YouTube Player -->
+  <div id="youtube-player" style="position: fixed; bottom: -200px; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
+
   <!-- ✅ JavaScript: functions are here -->
   <script>
     let scrollTimer = null;
@@ -453,6 +460,126 @@ body.theme-light {
         document.getElementById('cardColorPicker').value = '#171720';
       }
     })();
+
+    // YouTube Music Player
+    let player;
+    let playerState = 'UNSTARTED'; // Track actual player state
+    const YOUTUBE_VIDEO_ID = 'jwCVQ8EnKUA'; // Hanuman Chalisa
+
+    // YouTube API callback - called when API is ready
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          loop: 1,
+          playlist: YOUTUBE_VIDEO_ID, // Required for loop to work
+          enablejsapi: 1,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+          onError: onPlayerError
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Player is ready - update button to show it's available
+      console.log('YouTube player is ready');
+      playerState = 'READY';
+      updateMusicButton();
+    }
+
+    function onPlayerStateChange(event) {
+      // Update button state based on actual player state
+      if (event.data === YT.PlayerState.PLAYING) {
+        playerState = 'PLAYING';
+      } else if (event.data === YT.PlayerState.PAUSED) {
+        playerState = 'PAUSED';
+      } else if (event.data === YT.PlayerState.ENDED) {
+        playerState = 'ENDED';
+      } else if (event.data === YT.PlayerState.BUFFERING) {
+        playerState = 'BUFFERING';
+      } else if (event.data === YT.PlayerState.CUED) {
+        playerState = 'READY';
+      }
+      updateMusicButton();
+    }
+
+    function onPlayerError(event) {
+      console.error('YouTube player error:', event.data);
+      playerState = 'ERROR';
+      updateMusicButton();
+    }
+
+    function toggleMusic() {
+      if (!player || !player.playVideo) {
+        console.log('Player not ready yet');
+        playerState = 'NOT_READY';
+        updateMusicButton();
+        return;
+      }
+
+      // Check current actual state from player
+      const currentState = player.getPlayerState();
+      
+      if (currentState === YT.PlayerState.PLAYING || currentState === YT.PlayerState.BUFFERING) {
+        // Currently playing or buffering - pause it
+        player.pauseVideo();
+        playerState = 'PAUSING';
+      } else {
+        // Currently paused or not started - play it
+        player.playVideo();
+        playerState = 'BUFFERING';
+      }
+      
+      updateMusicButton();
+    }
+
+    function updateMusicButton() {
+      const button = document.getElementById('musicButton');
+      if (!button) return;
+
+      // Update button based on actual player state
+      switch(playerState) {
+        case 'PLAYING':
+          button.textContent = '⏸️ Pause Music';
+          button.style.borderColor = 'var(--accent)';
+          button.style.background = 'rgba(255, 183, 3, 0.15)';
+          break;
+        case 'BUFFERING':
+          button.textContent = '⏳ Loading...';
+          button.style.borderColor = 'var(--accent)';
+          button.style.background = 'rgba(255, 183, 3, 0.1)';
+          break;
+        case 'PAUSED':
+        case 'ENDED':
+        case 'READY':
+          button.textContent = '🎵 Play Music';
+          button.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+          button.style.background = 'rgba(23, 23, 32, 0.9)';
+          break;
+        case 'PAUSING':
+          button.textContent = '⏸️ Pausing...';
+          button.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+          button.style.background = 'rgba(23, 23, 32, 0.9)';
+          break;
+        case 'ERROR':
+          button.textContent = '❌ Error';
+          button.style.borderColor = 'rgba(255, 50, 50, 0.5)';
+          button.style.background = 'rgba(23, 23, 32, 0.9)';
+          break;
+        case 'NOT_READY':
+        case 'UNSTARTED':
+        default:
+          button.textContent = '🎵 Play Music';
+          button.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+          button.style.background = 'rgba(23, 23, 32, 0.9)';
+      }
+    }
   </script>
 
 </body>
