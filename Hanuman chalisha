@@ -2,18 +2,135 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8" />
-  <title>Hanuman Chalisa</title>
-  <meta name="description" content="Hanuman Chalisa – Public Domain Text" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>हनुमान चालीसा | Hanuman Chalisa (Public Domain)</title>
+  <meta name="description" content="हनुमान चालीसा – गोस्वामी तुलसीदास द्वारा रचित सार्वजनिक डोमेन पाठ" />
+  <style>
+    :root {
+      --bg: #0f0f14;
+      --card: #171720;
+      --text: #f4f4f6;
+      --muted: #b8b8c2;
+      --accent: #ffb703;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 50% -10%, #1f1f2e, var(--bg));
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      line-height: 1.75;
+    }
+    .container {
+      max-width: 900px;
+      margin: 24px auto 64px;
+      padding: 0 16px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      padding: 24px 20px 28px;
+      backdrop-filter: blur(6px);
+    }
+    h1 {
+      text-align: center;
+      margin: 6px 0 8px;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+      margin: 18px 0 20px;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "Noto Serif Devanagari", "Mangal", "Kalimati", serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin: 0;
+    }
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
 <body>
-  <h1>हनुमान चालीसा</h1>
+  <main class="container">
+    <section class="card">
+      <div class="badge">Public Domain</div>
+      <h1>हनुमान चालीसा</h1>
+      <p class="subtitle">गोस्वामी तुलसीदास कृत (16वीं शताब्दी)</p>
+      <div class="divider"></div>
 
-  <pre>
-श्रीगुरु चरन सरोज रज...
-  </pre>
+      <pre>
+श्रीगुरु चरन सरोज रज, निज मनु मुकुरु सुधारि।
+बरनउँ रघुबर बिमल जसु, जो दायक फल चारि॥
 
-  <footer>
-    <p>Original text by Goswami Tulsidas (Public Domain)</p>
-  </footer>
-</body>
-</html>
+बुद्धिहीन तनु जानिके, सुमिरौं पवन-कुमार।
+बल बुद्धि विद्या देहु मोहिं, हरहु कलेस विकार॥
+
+जय हनुमान ज्ञान गुन सागर।
+जय कपीस तिहुँ लोक उजागर॥
+रामदूत अतुलित बल धामा।
+अंजनि-पुत्र पवनसुत नामा॥
+महाबीर बिक्रम बजरंगी।
+कुमति निवार सुमति के संगी॥
+कंचन बरन बिराज सुबेसा।
+कानन कुंडल कुंचित केसा॥
+हाथ बज्र औ ध्वजा बिराजे।
+काँधे मूँज जनेऊ साजे॥
+शंकर सुवन केसरी नंदन।
+तेज प्रताप महा जग वंदन॥
+विद्यावान गुनी अति चातुर।
+राम काज करिबे को आतुर॥
+प्रभु चरित्र सुनिबे को रसिया।
+राम लखन सीता मन बसिया॥
+सूक्ष्म रूप धरि सियहिं दिखावा।
+विकट रूप धरि लंक जरावा॥
+भीम रूप धरि असुर संहारे।
+रामचंद्र के काज सँवारे॥
+लाय सजीवन लखन जियाए।
+श्रीरघुवीर हरषि उर लाए॥
+रघुपति कीन्ही बहुत बड़ाई।
+तुम मम प्रिय भरतहि सम भाई॥
+सहस बदन तुम्हरो जस गावैं।
+अस कहि श्रीपति कंठ लगावैं॥
+सनकादिक ब्रह्मादि मुनीसा।
+नारद सारद सहित अहीसा॥
+जम कुबेर दिगपाल जहाँ ते।
+कवि कोविद कहि सके कहाँ ते॥
+तुम उपकार सुग्रीवहिं कीन्हा।
+राम मिलाय राज पद दीन्हा॥
+तुम्हरो मंत्र विभीषण माना।
+लंकेश्वर भए सब जग जाना॥
+युग सहस्र योजन पर भानू।
+लील्यो ताहि मधुर फल जानू॥
+प्रभु मुद्रिका मेलि मुख माहीं।
+जलधि लांघि गए अचरज नाहीं॥
+दुर्गम काज जगत के जेते।
+सुगम अनुग्रह तुम्हरे तेते॥
+राम दुआरे तुम रखवारे।
+होत न आज्ञा बिनु पैसारे॥
+सब सुख लहै तुम्हारी सरना।
+तुम रक्षक काह
