@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://souravkumohanta.github.io/Webpages/sitemap.xml
