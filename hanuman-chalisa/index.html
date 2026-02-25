@@ -58,12 +58,30 @@
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+      background: var(--card);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
       padding: 24px 20px 28px;
       backdrop-filter: blur(6px);
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
@@ -331,6 +349,12 @@ body.theme-light {
     <button type="button" onclick="startAutoScroll()">▶ Auto Scroll</button>
     <button type="button" onclick="stopAutoScroll()">⏸ Stop</button>
     <input type="range" oninput="setThemeHue(this.value)" />
+    <label style="display: flex; align-items: center; gap: 8px; background: rgba(23, 23, 32, 0.9); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 999px; padding: 8px 14px; font-weight: 600; color: var(--text);">
+      🎨 BG: <input type="color" id="bgColorPicker" onchange="setBgColor(this.value)" style="cursor: pointer; border: none; width: 32px; height: 24px;">
+    </label>
+    <label style="display: flex; align-items: center; gap: 8px; background: rgba(23, 23, 32, 0.9); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 999px; padding: 8px 14px; font-weight: 600; color: var(--text);">
+      🃏 Card: <input type="color" id="cardColorPicker" onchange="setCardColor(this.value)" style="cursor: pointer; border: none; width: 32px; height: 24px;">
+    </label>
   </div>
   <!-- ✅ JavaScript: functions are here -->
   <script>
@@ -383,6 +407,18 @@ body.theme-light {
       localStorage.setItem('accentHue', hue);
     }
 
+    // Background color picker
+    function setBgColor(color) {
+      document.documentElement.style.setProperty('--bg', color);
+      localStorage.setItem('bgColor', color);
+    }
+
+    // Card color picker
+    function setCardColor(color) {
+      document.documentElement.style.setProperty('--card', color);
+      localStorage.setItem('cardColor', color);
+    }
+
     // Restore preferences
     (function restorePrefs() {
       const theme = localStorage.getItem('theme');
@@ -396,6 +432,26 @@ body.theme-light {
 
       const hue = localStorage.getItem('accentHue');
       if (hue) setThemeHue(hue);
+
+      // Restore background color
+      const bgColor = localStorage.getItem('bgColor');
+      if (bgColor) {
+        document.documentElement.style.setProperty('--bg', bgColor);
+        document.getElementById('bgColorPicker').value = bgColor;
+      } else {
+        // Set initial value to current --bg color
+        document.getElementById('bgColorPicker').value = '#0f0f14';
+      }
+
+      // Restore card color
+      const cardColor = localStorage.getItem('cardColor');
+      if (cardColor) {
+        document.documentElement.style.setProperty('--card', cardColor);
+        document.getElementById('cardColorPicker').value = cardColor;
+      } else {
+        // Set initial value to current --card color
+        document.getElementById('cardColorPicker').value = '#171720';
+      }
     })();
   </script>
 
