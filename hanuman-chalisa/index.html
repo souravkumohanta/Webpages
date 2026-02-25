@@ -140,25 +140,29 @@
       position: fixed;
       right: 16px;
       bottom: 16px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
+      z-index: 99999;
+      display: grid;
+      /* or flex */
       gap: 8px;
     }
 
     .floating-controls button {
       background: rgba(23, 23, 32, 0.9);
-      color: #f4f4f6;
+      color: var(--text);
+      /* respects your theme */
       border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 999px;
       padding: 10px 14px;
-      cursor: pointer;
       font-weight: 700;
-      backdrop-filter: blur(6px);
+      cursor: pointer;
     }
 
     .floating-controls button:hover {
-      border-color: #ffb703;
+      border-color: var(--accent);
+    }
+
+    body {
+      padding-bottom: 80px;
     }
   </style>
 </head>
@@ -174,10 +178,7 @@
         <button type="button" onclick="setFontSize('base')">Normal Text</button>
         <button type="button" onclick="setFontSize('large')">Large Text</button>
         <button type="button" onclick="setFontSize('xl')">Extra Large Text</button>
-        <div class="floating-controls">
-          <button type="button" onclick="startAutoScroll()">▶ Start Auto Scroll</button>
-          <button type="button" onclick="stopAutoScroll()">⏸ Stop Auto Scroll</button>
-        </div>
+
       </div>
 
       <div class="divider"></div>
@@ -316,29 +317,31 @@
       </pre>
     </section>
   </main>
-
+  <div class="floating-controls">
+    <button type="button" onclick="toggleTheme()">🌓 Dark / Light</button>
+    <button type="button" onclick="toggleTextColor()">🅰️ Text</button>
+    <button type="button" onclick="startAutoScroll()">▶ Auto Scroll</button>
+    <button type="button" onclick="stopAutoScroll()">⏸ Stop</button>
+  </div>
   <!-- ✅ JavaScript: functions are here -->
   <script>
     let scrollTimer = null;
 
+    // Font size (keep your existing implementation)
     function setFontSize(size) {
       const el = document.getElementById('chalisaText');
       if (!el) return;
 
-      if (size === 'base') {
-        el.style.fontSize = '1.05rem';
-      } else if (size === 'large') {
-        el.style.fontSize = '1.35rem';
-      } else if (size === 'xl') {
-        el.style.fontSize = '1.95rem';
-      }
+      const map = { base: '1.05rem', large: '1.35rem', xl: '1.65rem', xxl: '1.95rem' };
+      el.style.fontSize = map[size] || map.base;
+      localStorage.setItem('fontSize', size);
     }
 
     function startAutoScroll() {
-      stopAutoScroll(); // prevent duplicates
+      stopAutoScroll();
       scrollTimer = setInterval(() => {
-        window.scrollBy({ top: 1, left: 0, behavior: 'smooth' });
-      }, 40); // increase to 30–40 for slower scroll
+        window.scrollBy({ top: 1, behavior: 'smooth' });
+      }, 20);
     }
 
     function stopAutoScroll() {
@@ -347,7 +350,44 @@
         scrollTimer = null;
       }
     }
+
+    // Theme toggle (Dark <-> Light)
+    function toggleTheme() {
+      document.body.classList.toggle('theme-light');
+      localStorage.setItem('theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+    }
+
+    function toggleTextColor() {
+      const root = document.documentElement;
+      const current = getComputedStyle(root).getPropertyValue('--text').trim();
+      const next = (current === '#000000' || current === 'rgb(0, 0, 0)') ? '#ffffff' : '#000000';
+      root.style.setProperty('--text', next);
+      localStorage.setItem('textColor', next);
+    }
+
+    // VIBGYOR slider -> sets accent hue
+    function setThemeHue(hue) {
+      const color = `hsl(${hue}, 85%, 55%)`;
+      document.documentElement.style.setProperty('--accent', color);
+      localStorage.setItem('accentHue', hue);
+    }
+
+    // Restore preferences
+    (function restorePrefs() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light') document.body.classList.add('theme-light');
+
+      const textColor = localStorage.getItem('textColor');
+      if (textColor) document.documentElement.style.setProperty('--text', textColor);
+
+      const fontSize = localStorage.getItem('fontSize');
+      if (fontSize) setFontSize(fontSize);
+
+      const hue = localStorage.getItem('accentHue');
+      if (hue) setThemeHue(hue);
+    })();
   </script>
+
 </body>
 
 </html>
