@@ -105,7 +105,7 @@
       <div class="controls">
         <button type="button" onclick="setFontSize('base')">Normal Text</button>
         <button type="button" onclick="setFontSize('large')">Large Text</button>
-        <button type="button" onclick="setFontSize('xxl')">Extra Large Text</button>
+        <button type="button" onclick="setFontSize('xl')">Extra Large Text</button>
         <button type="button" onclick="startAutoScroll()">▶ Start Auto Scroll</button>
         <button type="button" onclick="stopAutoScroll()">⏸ Stop Auto Scroll</button>
       </div>
@@ -260,7 +260,7 @@
       } else if (size === 'large') {
         el.style.fontSize = '1.35rem';
       } else if (size === 'xl') {
-        el.style.fontSize = '1.65rem';
+        el.style.fontSize = '1.95rem';
       }
     }
 
@@ -268,7 +268,7 @@
       stopAutoScroll(); // prevent duplicates
       scrollTimer = setInterval(() => {
         window.scrollBy({ top: 1, left: 0, behavior: 'smooth' });
-      }, 20); // increase to 30–40 for slower scroll
+      }, 40); // increase to 30–40 for slower scroll
     }
 
     function stopAutoScroll() {
