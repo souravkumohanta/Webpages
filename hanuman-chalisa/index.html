@@ -12,9 +12,6 @@
       --text: #f4f4f6;
       --muted: #b8b8c2;
       --accent: #ffb703;
-      --font-base: 1.05rem;
-      --font-large: 1.35rem;
-      --font-xl: 1.65rem;
     }
     body {
       margin: 0;
@@ -74,7 +71,7 @@
       white-space: pre-wrap;
       word-break: break-word;
       font-family: "Noto Serif Devanagari", "Mangal", "Kalimati", serif;
-      font-size: var(--font-base);
+      font-size: 1.05rem;
       line-height: 1.9;
       margin: 0;
       transition: font-size 0.2s ease;
@@ -105,13 +102,12 @@
       <h1>हनुमान चालीसा</h1>
       <p class="subtitle">गोस्वामी तुलसीदास कृत (16वीं शताब्दी)</p>
 
-      <!-- Controls -->
       <div class="controls">
-        <button onclick="setFontSize('base')">Normal Text</button>
-        <button onclick="setFontSize('large')">Large Text</button>
-        <button onclick="setFontSize('xl')">Extra Large Text</button>
-        <button onclick="startAutoScroll()">▶ Start Auto Scroll</button>
-        <button onclick="stopAutoScroll()">⏸ Stop Auto Scroll</button>
+        <button type="button" onclick="setFontSize('base')">Normal Text</button>
+        <button type="button" onclick="setFontSize('large')">Large Text</button>
+        <button type="button" onclick="setFontSize('xl')">Extra Large Text</button>
+        <button type="button" onclick="startAutoScroll()">▶ Start Auto Scroll</button>
+        <button type="button" onclick="stopAutoScroll()">⏸ Stop Auto Scroll</button>
       </div>
 
       <div class="divider"></div>
@@ -166,3 +162,40 @@
 राम दुआरे तुम रखवारे।
 होत न आज्ञा बिनु पैसारे॥
 सब सुख लहै तुम्ह
+      </pre>
+    </section>
+  </main>
+
+  <!-- ✅ JavaScript: functions are here -->
+  <script>
+    let scrollTimer = null;
+
+    function setFontSize(size) {
+      const el = document.getElementById('chalisaText');
+      if (!el) return;
+
+      if (size === 'base') {
+        el.style.fontSize = '1.05rem';
+      } else if (size === 'large') {
+        el.style.fontSize = '1.35rem';
+      } else if (size === 'xl') {
+        el.style.fontSize = '1.65rem';
+      }
+    }
+
+    function startAutoScroll() {
+      stopAutoScroll(); // prevent duplicates
+      scrollTimer = setInterval(() => {
+        window.scrollBy({ top: 1, left: 0, behavior: 'smooth' });
+      }, 20); // increase to 30–40 for slower scroll
+    }
+
+    function stopAutoScroll() {
+      if (scrollTimer) {
+        clearInterval(scrollTimer);
+        scrollTimer = null;
+      }
+    }
+  </script>
+</body>
+</html>
